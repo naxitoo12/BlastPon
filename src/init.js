@@ -88,13 +88,35 @@ function create (){
     const KeyCodes = Phaser.Input.Keyboard.KeyCodes;
     console.log(KeyCodes);
 
-    //teclas
+    //teclas para pc
     this.teclas = this.input.keyboard.addKeys({
     arriba: 'W',
     abajo: 'S',
     arribaDer: Phaser.Input.Keyboard.KeyCodes.UP,
     abajoDer: Phaser.Input.Keyboard.KeyCodes.DOWN
     });
+
+     // Controles táctiles para movil
+    this.controles = {
+        arriba: false,
+        abajo: false,
+        arribaDer: false,
+        abajoDer: false
+    };
+
+    const addTouchControl = (id, key) => {
+        const btn = document.getElementById(id);
+        if (btn) {
+            btn.addEventListener("touchstart", () => this.controles[key] = true);
+            btn.addEventListener("touchend", () => this.controles[key] = false);
+        }
+    };
+
+    addTouchControl("arriba", "arriba");
+    addTouchControl("abajo", "abajo");
+    addTouchControl("arribaDer", "arribaDer");
+    addTouchControl("abajoDer", "abajoDer");
+    
 
 
     // Colisiones, para que rebote la pelota
@@ -113,28 +135,25 @@ function update(time, delta){
    
 const velocidad = 7;
 
-    // Paleta izquierda
-    if (this.teclas.arriba.isDown) {
+     // Paleta izquierda (teclado o táctil)
+    if (this.teclas.arriba.isDown || this.controles.arriba) {
         paletaIzquierda.y -= velocidad;
     }
-
-    if (this.teclas.abajo.isDown) {
+    if (this.teclas.abajo.isDown || this.controles.abajo) {
         paletaIzquierda.y += velocidad;
     }
 
-    // Limitar la paleta al canvas
-    paletaIzquierda.y = Phaser.Math.Clamp(paletaIzquierda.y, 50, 550);
-
-    //paleta derecha
-     if (paletaDerecha && this.teclas) {
-        if (this.teclas.arribaDer.isDown) {
-            paletaDerecha.y -= velocidad;
-        }
-        if (this.teclas.abajoDer.isDown) {
-            paletaDerecha.y += velocidad;
-        }
-        paletaDerecha.y = Phaser.Math.Clamp(paletaDerecha.y, 50, 550);
+    // Paleta derecha (teclado o táctil)
+    if (this.teclas.arribaDer.isDown || this.controles.arribaDer) {
+        paletaDerecha.y -= velocidad;
     }
+    if (this.teclas.abajoDer.isDown || this.controles.abajoDer) {
+        paletaDerecha.y += velocidad;
+    }
+
+    //Evita que las paletas se salgan de la pantalla (limita su posición vertical)
+    paletaIzquierda.y = Phaser.Math.Clamp(paletaIzquierda.y, 50, 550);
+    paletaDerecha.y = Phaser.Math.Clamp(paletaDerecha.y, 50, 550);
 
     // Reinicia la pelota a la posición inicial con velocidad aleatoria si sale del área del juego
     if (pelota.x < 0 || pelota.x > 800 || pelota.y < 0 || pelota.y > 600) {

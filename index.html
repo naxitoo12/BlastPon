@@ -5,11 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BlastPong</title>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        height: 100%;
+        background: #8F8F8F;
+    }
+
+    canvas {
+        display: block;
+        margin: auto;
+        touch-action: none;
+    }
+
+    button {
+        padding: 10px 20px;
+    }
+</style>
 </head>
 <body>
     <div class="contenedor">
         <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.min.js"></script>
         <script src="src/init.js"></script>
     </div>
+    <div id="controles" style="position: absolute; bottom: 20px; width: 100%; display: flex; justify-content: space-between; padding: 0 20px;">
+    <div>
+        <button id="arriba" style="font-size: 20px;">⬆️</button>
+        <button id="abajo" style="font-size: 20px;">⬇️</button>
+    </div>
+    <div>
+        <button id="arribaDer" style="font-size: 20px;">⬆️</button>
+        <button id="abajoDer" style="font-size: 20px;">⬇️</button>
+    </div>
+</div>
 </body>
 </html>
