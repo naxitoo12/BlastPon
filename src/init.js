@@ -41,6 +41,7 @@ function preload (){
     this.load.image('mesa', 'assets/fondo/mesa.png');
     this.load.image('paleta', 'assets/paleta/paleta.png');
     this.load.image('pelota', 'assets/pelota/bola.png');
+    this.load.audio('sonido', 'assets/sonido/golpe.mp3')
     
 };
 function create (){
@@ -118,13 +119,22 @@ function create (){
     addTouchControl("abajoDer", "abajoDer");
     
 
-
-    // Colisiones, para que rebote la pelota
-    this.physics.add.collider(pelota, paletaIzquierda);
-    this.physics.add.collider(pelota, paletaDerecha);
-    
     // Limitar a los bordes del mundo
     this.physics.world.setBoundsCollision(false, false, true, true);
+
+    //sonido de cuando golpea en paleta 
+    const efecto = this.sound.add('sonido');
+
+     // Colisión pelota con paleta izquierda
+    this.physics.add.collider(pelota, paletaIzquierda,  () => {
+        efecto.play();
+    });
+
+    // Colisión pelota con paleta derecha
+    this.physics.add.collider(pelota, paletaDerecha, () => {
+        efecto.play();
+    });
+    
 
 
 
